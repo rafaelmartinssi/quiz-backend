@@ -9,11 +9,11 @@ import { UserEntity } from './entities/user.entity';
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  create(createUserDto: CreateUserDto) {
+  create(createUserDto: CreateUserDto): Promise<UserEntity> {
     return this.usersRepository.create(createUserDto);
   }
 
-  findAll() {
+  findAll(): Promise<Array<UserEntity>> {
     return this.usersRepository.findAll();
   }
 
@@ -25,11 +25,13 @@ export class UsersService {
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<UserEntity> {
+    await this.findOne(id);
     return this.usersRepository.update(id, updateUserDto);
   }
 
-  remove(id: number) {
+  async remove(id: number): Promise<UserEntity> {
+    await this.findOne(id);
     return this.usersRepository.remove(id);
   }
 }
