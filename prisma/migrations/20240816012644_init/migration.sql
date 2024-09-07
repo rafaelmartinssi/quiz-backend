@@ -12,6 +12,7 @@ CREATE TABLE "user" (
 -- CreateTable
 CREATE TABLE "category" (
     "id" SERIAL NOT NULL,
+    "title" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
     "userId" INTEGER NOT NULL,
@@ -22,7 +23,7 @@ CREATE TABLE "category" (
 -- CreateTable
 CREATE TABLE "question" (
     "id" SERIAL NOT NULL,
-    "description" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
     "userId" INTEGER NOT NULL,
@@ -34,8 +35,8 @@ CREATE TABLE "question" (
 -- CreateTable
 CREATE TABLE "answer" (
     "id" SERIAL NOT NULL,
-    "description" TEXT NOT NULL,
-    "right" BOOLEAN NOT NULL DEFAULT false,
+    "title" TEXT NOT NULL,
+    "correct" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
     "userId" INTEGER NOT NULL,

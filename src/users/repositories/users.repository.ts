@@ -21,14 +21,6 @@ export class UsersRepository {
   async findOne(id: number): Promise<UserEntity> {
     return this.prisma.user.findUnique({
       where: { id },
-      include: {
-        categories: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
-      },
     });
   }
 
