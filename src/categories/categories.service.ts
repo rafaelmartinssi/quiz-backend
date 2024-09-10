@@ -4,35 +4,31 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoryEntity } from './entities/category.entity';
 import { CategoriesRepository } from './repositories/categories.repository';
 import { NotFoundError } from 'src/common/errors/types/NotFoundError';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class CategoriesService {
-  constructor(private categoryRepository: CategoriesRepository) {}
+  constructor(
+    private categoriesRepository: CategoriesRepository,
+    private usersService: UsersService,
+  ) {}
 
   async create(createCategoryDto: CreateCategoryDto): Promise<CategoryEntity> {
-    await this.findUser(createCategoryDto.userId);
-    return this.categoryRepository.create(createCategoryDto);
+    const { userId } = createCategoryDto;
+    await this.usersService.findOne(userId);
+    return this.categoriesRepository.create(createCategoryDto);
   }
 
   async findAll(): Promise<Array<CategoryEntity>> {
-    return this.categoryRepository.findAll();
+    return this.categoriesRepository.findAll();
   }
 
   async findOne(id: number): Promise<CategoryEntity> {
-    const category = await this.categoryRepository.findOne(id);
+    const category = await this.categoriesRepository.findOne(id);
     if (!category) {
       throw new NotFoundError('Categoria não encontrada');
     }
     return category;
-  }
-
-  async findUser(id: number): Promise<UserEntity> {
-    const user = await this.categoryRepository.findUser(id);
-    if (!user) {
-      throw new NotFoundError('Usuário não encontrado');
-    }
-    return user;
   }
 
   async update(
@@ -40,12 +36,13 @@ export class CategoriesService {
     updateCategoryDto: UpdateCategoryDto,
   ): Promise<CategoryEntity> {
     await this.findOne(id);
-    await this.findUser(updateCategoryDto.userId);
-    return this.categoryRepository.update(id, updateCategoryDto);
+    const { userId } = updateCategoryDto;
+    await this.usersService.findOne(userId);
+    return this.categoriesRepository.update(id, updateCategoryDto);
   }
 
   async remove(id: number): Promise<CategoryEntity> {
     await this.findOne(id);
-    return this.categoryRepository.remove(id);
+    return this.categoriesRepository.remove(id);
   }
 }

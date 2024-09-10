@@ -3,7 +3,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { CategoryEntity } from '../entities/category.entity';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
-import { UserEntity } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class CategoriesRepository {
@@ -37,12 +36,6 @@ export class CategoriesRepository {
 
   async remove(id: number): Promise<CategoryEntity> {
     return this.prisma.category.delete({
-      where: { id },
-    });
-  }
-
-  async findUser(id: number): Promise<UserEntity> {
-    return this.prisma.user.findUnique({
       where: { id },
     });
   }
