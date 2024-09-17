@@ -5,6 +5,7 @@ import { UnauthorizedInterceptor } from './common/errors/interceptors/unauthoriz
 import { NotFoundInterceptor } from './common/errors/interceptors/not-found.interceptor';
 import { ConflictInterceptor } from './common/errors/interceptors/conflict.interceptor';
 import { PrismaGenericInterceptor } from './common/errors/interceptors/prisma-generic.interceptors';
+import { BadRequestInterceptor } from './common/errors/interceptors/bad-request.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +20,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new PrismaGenericInterceptor());
   app.useGlobalInterceptors(new UnauthorizedInterceptor());
   app.useGlobalInterceptors(new NotFoundInterceptor());
+  app.useGlobalInterceptors(new BadRequestInterceptor());
   await app.listen(process.env.PORT);
 }
 bootstrap();

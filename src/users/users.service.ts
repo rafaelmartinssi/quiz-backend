@@ -4,16 +4,27 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './repositories/users.repository';
 import { NotFoundError } from 'src/common/errors/types/NotFoundError';
 import { UserEntity } from './entities/user.entity';
+import { BadRequestError } from 'src/common/errors/types/BadRequestError';
+import { generateHash } from 'src/common/bcrypt/hash-provider';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  create(createUserDto: CreateUserDto): Promise<UserEntity> {
+  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
+    const { email } = createUserDto;
+    const user = await this.usersRepository.findByEmail(email);
+    if (user) {
+      throw new BadRequestError('Email já cadastrado');
+    }
+
+    const hashPassword = await generateHash(createUserDto.password);
+    createUserDto.password = hashPassword;
+
     return this.usersRepository.create(createUserDto);
   }
 
-  findAll(): Promise<Array<UserEntity>> {
+  async findAll(): Promise<Array<UserEntity>> {
     return this.usersRepository.findAll();
   }
 
