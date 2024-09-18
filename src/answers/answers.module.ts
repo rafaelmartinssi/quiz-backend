@@ -9,6 +9,7 @@ import { UsersRepository } from 'src/users/repositories/users.repository';
 import { QuestionsRepository } from 'src/questions/repositories/questions.repository';
 import { CategoriesRepository } from 'src/categories/repositories/categories.repository';
 import { CategoriesService } from 'src/categories/categories.service';
+import { AuthService } from 'src/auth/auth.service';
 
 @Module({
   controllers: [AnswersController],
@@ -22,6 +23,7 @@ import { CategoriesService } from 'src/categories/categories.service';
     CategoriesRepository,
     QuestionsService,
     QuestionsRepository,
+    AuthService,
   ],
 })
 export class AnswersModule {}

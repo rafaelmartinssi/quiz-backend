@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesRepository } from './repositories/categories.repository';
 import { UsersService } from 'src/users/users.service';
 import { UsersRepository } from 'src/users/repositories/users.repository';
+import { AuthService } from 'src/auth/auth.service';
 
 @Module({
   controllers: [CategoriesController],
@@ -14,6 +15,7 @@ import { UsersRepository } from 'src/users/repositories/users.repository';
     CategoriesRepository,
     UsersRepository,
     UsersService,
+    AuthService,
   ],
 })
 export class CategoriesModule {}
